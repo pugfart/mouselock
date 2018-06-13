@@ -12,10 +12,11 @@ namespace WindowsFormsApplication8
 {
     public partial class Form1 : Form
     {
-        Point s;
+        Point s,a,b;
         Point end;
         bool isDrag = false;
         Point startPoint;
+        List<aa> bb = new List<aa>();
         public Form1()
         {
             InitializeComponent();
@@ -25,9 +26,19 @@ namespace WindowsFormsApplication8
         {
             s = new Point(10, 10);
             end = new Point(100, 100);
+            a = new Point(10, 100);
+            b = new Point(100, 10);
+
+            aa line1 = new aa(s, end);
+            aa line2 = new aa(a, b);
+            bb.Add(new WindowsFormsApplication8.aa(s, end));
+            bb.Add(new aa(a, b));
+            
             Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
             Graphics g = Graphics.FromImage(bmp);
             g.DrawLine(Pens.Black, s, end);
+            g.DrawLine(Pens.Black, line2.s, line2.e);
             pictureBox1.Image = bmp;
 
             Form f = new Form();
@@ -64,13 +75,27 @@ namespace WindowsFormsApplication8
             Control control = (Control)sender;
             Form f = new Form();
             this.Cursor = new Cursor(Cursor.Current.Handle);
-            if ((e.X - s.X < 10 && e.X - s.X > -10) && (e.Y - s.Y < 10 && e.Y - s.Y > -10))//滑鼠靠近s
+            foreach (aa cc in bb)
             {
-                startPoint = control.PointToScreen(new Point(f.Location.X, f.Location.Y));
-                startPoint.X += s.X;
-                startPoint.Y += s.Y;
-                Cursor.Position = startPoint;
-                //Cursor.Clip = new Rectangle(this.Location, this.Size);
+                s = cc.s;
+                if ((e.X - s.X < 10 && e.X - s.X > -10) && (e.Y - s.Y < 10 && e.Y - s.Y > -10))//滑鼠靠近s
+                {
+                    startPoint = control.PointToScreen(new Point(f.Location.X, f.Location.Y));
+                    startPoint.X += s.X;
+                    startPoint.Y += s.Y;
+                    Cursor.Position = startPoint;
+                    //Cursor.Clip = new Rectangle(this.Location, this.Size);
+                }
+
+                s = cc.e;
+                if ((e.X - s.X < 10 && e.X - s.X > -10) && (e.Y - s.Y < 10 && e.Y - s.Y > -10))//滑鼠靠近s
+                {
+                    startPoint = control.PointToScreen(new Point(f.Location.X, f.Location.Y));
+                    startPoint.X += s.X;
+                    startPoint.Y += s.Y;
+                    Cursor.Position = startPoint;
+                    //Cursor.Clip = new Rectangle(this.Location, this.Size);
+                }
             }
         }
     }
